@@ -1,0 +1,26 @@
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+.crash
+*.log
+override.tf
+override.tf.json
+terraform.tfvars
+terraform.tfvars.json
+
+# IDEs
+.idea/
+.vscode/
+
+# Go Build & Cache
+bin/
+*.exe
+*.out
+*.test
+*.mod
+*.sum
+
+# System Files
+.DS_Store
+Thumbs.db

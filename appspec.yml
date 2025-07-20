@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/app
+
+permissions:
+  - object: scripts/start_server.sh
+    mode: 755
+
+hooks:
+  AfterInstall:
+    - location: scripts/start_server.sh
+      timeout: 300
+      runas: ec2-user
