@@ -11,11 +11,6 @@ variable "project_name" {
   default     = "codepipeline-project"
 }
 
-variable "region" {
-  description = "AWS region to deploy resources"
-  type        = string
-  default     = "ap-south-1"
-}
 
 // ---------- GitHub Source Repository ----------
 variable "github_repo" {
@@ -24,19 +19,13 @@ variable "github_repo" {
   default     = "https://github.com/SuchitaPradhan/CodePipeline-Terraform.git"
 }
 
-variable "branch" {
-  description = "Branch name to trigger pipeline from"
-  type        = string
-  default     = "main"
-}
 
 // ---------- EC2 Instance Configuration ----------
-variable "instance_type" {
-  description = "EC2 instance type for CodeDeploy target"
-  type        = string
-  default     = "t2.micro"
-}
-
+//variable "instance_type" {
+ // description = "EC2 instance type for CodeDeploy target"
+ // type        = string
+  //default     = "t2.micro"
+//} //
 // ---------- Key Pair Name (ensure this key exists in your AWS account) ----------
 variable "key_name" {
   description = "Name of the EC2 Key Pair to access the instance"
@@ -45,11 +34,11 @@ variable "key_name" {
 }
 
 // ---------- AMI ID for EC2 (Amazon Linux 2 recommended) ----------
-variable "ami_id" {
-  description = "AMI ID for the EC2 instance"
-  type        = string
-  default     = "ami-03bb6d83c60fc5f7c" // <-- Update based on region
-}
+//variable "ami_id" {
+ // description = "AMI ID for the EC2 instance"
+ // type        = string
+ // default     = "ami-03bb6d83c60fc5f7c" // <-- Update based on region
+//}//
 // ---------- GitHub Integration Details ----------
 variable "github_owner" {
   description = "GitHub username or organization name"
@@ -68,7 +57,14 @@ variable "aws_region" {
   type        = string
   default     = "ap-south-1"
 }
-variable "environment" {
-  description = "The environment for deployment (e.g., dev, staging, prod)"
+
+variable "codestar_connection_arn" {
+  description = "The ARN of the existing AWS CodeStar Connection."
   type        = string
 }
+variable "github_token" {
+  description = "GitHub Personal Access Token (PAT) with 'repo' and 'admin:repo_hook' scopes."
+  type        = string
+  sensitive   = true
+}
+

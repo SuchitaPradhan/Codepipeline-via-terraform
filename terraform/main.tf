@@ -112,7 +112,7 @@ resource "aws_codepipeline" "pipeline" {
       output_artifacts = ["SourceArtifact"]
 
       configuration = {
-        ConnectionArn = "arn:aws:codeconnections:ap-south-1:176387410897:connection/87681edc-0fe5-437d-a479-a4fe89cecdc4" # <-- Update ARN after creating connection in AWS Console
+        ConnectionArn = data.aws_codestarconnections_connection.github.arn # <-- Update ARN after creating connection in AWS Console
         FullRepositoryId = "${var.github_owner}/${var.github_repo}"           # <-- GitHub repo (e.g., your-name/your-repo)
         BranchName       = var.github_branch
       }
@@ -159,9 +159,21 @@ resource "aws_codepipeline" "pipeline" {
 
 # -------------------- GitHub Connection --------------------
 data "aws_codestarconnections_connection" "github" {
-  arn = "arn:aws:codeconnections:ap-south-1:176387410897:connection/87681edc-0fe5-437d-a479-a4fe89cecdc4" # <-- Set this in variables.tf or .tfvars after creating connection in AWS Console
-}
+  arn = "arn:aws:codeconnections:ap-south-1:176387410897:connection/87681edc-0fe5-437d-a479-a4fe89cecdc4"
 
+}
+# -------------------------------------------------- Target EC2 Instance ---------------------------------------------------
+
+# Find latest Amazon Linux 2 AMI
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+}
 # -------------------- EC2 Resources --------------------
 
 # Find latest Amazon Linux 2 AMI
@@ -192,27 +204,15 @@ resource "aws_instance" "web_server" {
   }
 }
 
-# AMI data source
-data "aws_ami" "amazon_linux" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
-  }
-}
-
 # -------------------- Security Group --------------------
 resource "aws_security_group" "instance_sg" {
   name = "${var.project_name}-instance-sg"
-
   ingress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # <-- Restrict to your IP in production
+    cidr_blocks = ["0.0.0.0/0"]  # You can restrict this to your IP for better security
   }
   ingress {
     description = "HTTP"
@@ -228,12 +228,5 @@ resource "aws_security_group" "instance_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_iam_role_policy_attachment" "codepipeline_access" {
-  role       = aws_iam_role.codepipeline_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSCodePipeline_FullAccess"
-}
 
-resource "aws_iam_role_policy_attachment" "codestar_access" {
-  role       = aws_iam_role.codepipeline_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSCodeStarFullAccess"
-}
+
