@@ -21,4 +21,4 @@ jobs:
 
       - name: Start AWS CodePipeline Execution
         run: |
-          aws codepipeline start-pipeline-execution --name codepipeline-project-pipeline  #  Replace with your pipeline name
+          aws codepipeline start-pipeline-execution --name suchita-codepipeline-pipeline  #  Replace with your pipeline name
