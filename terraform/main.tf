@@ -77,6 +77,8 @@ resource "aws_codedeploy_deployment_group" "deploy_group" {
   deployment_group_name = "${var.project_name}-deployment-group"
   service_role_arn      = aws_iam_role.codedeploy_role.arn
 
+  deployment_config_name = "CodeDeployDefault.OneAtATime"
+
   ec2_tag_filter {
     key   = "Name"
     type  = "KEY_AND_VALUE"
@@ -159,8 +161,7 @@ resource "aws_codepipeline" "pipeline" {
 
 # -------------------- GitHub Connection --------------------
 data "aws_codestarconnections_connection" "github" {
-  arn = "arn:aws:codeconnections:ap-south-1:176387410897:connection/87681edc-0fe5-437d-a479-a4fe89cecdc4"
-
+  arn = "arn:aws:codeconnections:ap-south-1:176387410897:connection/7b88ddf3-b890-4a00-b9be-928aec7dff1a"
 }
 # -------------------------------------------------- Target EC2 Instance ---------------------------------------------------
 
