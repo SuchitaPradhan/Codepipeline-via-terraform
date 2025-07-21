@@ -8,7 +8,6 @@
 variable "project_name" {
   description = "suchita-codepipeline"
   type        = string
-  default     = "codepipeline-project"
 }
 
 
@@ -16,7 +15,7 @@ variable "project_name" {
 variable "github_repo" {
   description = "GitHub repository URL for source code"
   type        = string
-  default     = "https://github.com/SuchitaPradhan/CodePipeline-Terraform.git"
+  default     = "https://github.com/SuchitaPradhan/Codepipeline-via-terraform.git"
 }
 
 

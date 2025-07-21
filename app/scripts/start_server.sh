@@ -2,7 +2,7 @@
 
 echo "Starting server..."
 
-cd /home/ec2-user/app/app
+cd /home/ec2-user/app
 
 fuser -k 80/tcp || true
 
