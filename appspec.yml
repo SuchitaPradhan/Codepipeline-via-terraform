@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: app/scripts/
-    destination: /home/ec2-user/app/scripts/
+  - source: app/
+    destination: /var/www/html/
 
 permissions:
   - object: scripts/start_server.sh
@@ -10,6 +10,6 @@ permissions:
 
 hooks:
   AfterInstall:
-    - location: app/scripts/start_server.sh
+    - location: app/scripts/restart_apache.sh
       timeout: 300
-      runas: ec2-user
+      runas: root
